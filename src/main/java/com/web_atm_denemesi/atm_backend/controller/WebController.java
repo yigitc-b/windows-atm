@@ -24,6 +24,16 @@ public class LoginController {
         return "forward:/login.html";
     }
 
+    @GetMapping("/about")
+    public String about() {
+        return "about.html";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "dashboard.html";
+    }
+
     @PostMapping("/api/login")
     @ResponseBody
     public ResponseEntity<ServiceResponse> handleLogin(@RequestBody LoginRequest loginRequest) {
