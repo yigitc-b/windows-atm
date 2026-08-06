@@ -3,44 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web ATM - Giriş Yap</title>
+    <title>ATM Web - Giriş Yap</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0f172a; color: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .login-card { background-color: #1e293b; padding: 2.5rem; border-radius: 16px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); width: 350px; }
-        h2 { text-align: center; color: #38bdf8; margin-bottom: 1.5rem; }
-        .input-group { margin-bottom: 1.2rem; }
-        .input-group label { display: block; margin-bottom: 0.5rem; color: #94a3b8; font-size: 0.9rem; }
-        .input-group input { width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #334155; background-color: #0f172a; color: white; outline: none; }
-        .input-group input:focus { border-color: #38bdf8; }
-        .btn-submit { width: 100%; padding: 0.8rem; background-color: #22c55e; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-        .btn-submit:hover { background-color: #16a34a; }
-        .back-link { display: block; text-align: center; margin-top: 1rem; color: #94a3b8; text-decoration: none; font-size: 0.9rem; }
-        .back-link:hover { color: #38bdf8; }
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid #334155;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #38bdf8;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #475569;
+            background-color: #0f172a;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: #38bdf8;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        button:hover {
+            background-color: #0369a1;
+        }
+
+        .response-container {
+            margin-top: 1.5rem;
+        }
+
+        .response-container h3 {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+        }
+
+        pre {
+            background-color: #090d16;
+            color: #4ade80;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            border: 1px solid #334155;
+            max-height: 250px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
 
-    <div class="login-card">
-        <h2>🔐 Kullanıcı Girişi</h2>
+    <div class="container">
+        <h2>ATM Bank Giriş</h2>
         
-        <form onsubmit="handleLogin(event)">
-            <div class="input-group">
-                <label for="username">Müşteri No / T.C.</label>
-                <input type="text" id="username" required placeholder="Müşteri numaranızı girin">
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Kullanıcı Adı</label>
+                <input type="text" id="username" placeholder="Kullanıcı adınızı girin" required>
             </div>
 
-            <div class="input-group">
+            <div class="form-group">
                 <label for="password">Şifre</label>
-                <input type="password" id="password" required placeholder="••••••••">
+                <input type="password" id="password" placeholder="Şifrenizi girin" required>
             </div>
 
-            <button type="submit" class="btn-submit">Giriş Yap</button>
+            <button type="submit">Giriş Yap</button>
         </form>
 
-        <a href="/" class="back-link">← Ana Sayfaya Dön</a>
+        <div class="response-container">
+            <h3>Sunucu Yanıtı (JSON):</h3>
+            <pre id="responseOutput">// İsteği attığınızda sunucu yanıtı burada görünecek...</pre>
+        </div>
     </div>
 
-    <script src="/app.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Sayfanın varsayılan form yenilemesini engeller
+
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+            const outputElement = document.getElementById('responseOutput');
+
+            // İsteğe hazırlanma durumunu gösterelim
+            outputElement.style.color = "#facc15";
+            outputElement.textContent = "İstek gönderiliyor...";
+
+            const requestBody = {
+                username: usernameInput,
+                password: passwordInput
+            };
+
+            try {
+                // Backend'e POST İsteği fırlatıyoruz
+                const response = await fetch('/login/api', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                // Dönen HTTP yanıtını JSON olarak okuyoruz
+                const data = await response.json();
+
+                // Yanıt başarılı da gelse (200), hatalı da gelse (401 vb.) JSON'ı olduğu gibi formatlı ekrana basıyoruz
+                if (response.ok) {
+                    outputElement.style.color = "#4ade80"; // Başarılıysa Yeşil renk
+                } else {
+                    outputElement.style.color = "#f87171"; // Hatalıysa Kırmızı renk
+                }
+
+                // JSON'ı girintili (indented) olarak okunabilir formatta basar
+                outputElement.textContent = JSON.stringify(data, null, 2);
+
+            } catch (error) {
+                // Sunucu kapalıysa veya ağ hatası varsa
+                outputElement.style.color = "#f87171";
+                outputElement.textContent = "Sunucuya bağlanırken bir hata oluştu!\n" + error;
+            }
+        });
+    </script>
+
 </body>
 </html>

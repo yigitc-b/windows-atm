@@ -8,6 +8,10 @@ public class AtmBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AtmBackendApplication.class, args);
+        System.out.println("\n----------------------------------------------------------");
+            System.out.println("🚀 UYGULAMA BAŞARIYLA BAŞLATILDI!");
+            System.out.println("🔗 ANASAyfa: http://localhost:8080");
+            System.out.println("----------------------------------------------------------\n");
 	}
 
 }

@@ -7,14 +7,12 @@ public class ServiceResponse {
     private String message;
     private LocalDateTime timestamp;
     private String statusCode;
-    private LoginRequest userData;
 
-    public ServiceResponse(boolean success, String message, LocalDateTime timestamp, String statusCode, LoginRequest userData) {
+    public ServiceResponse(boolean success, String message, LocalDateTime timestamp, String statusCode) {
         this.success = success;
         this.message = message;
         this.timestamp = timestamp;
         this.statusCode = statusCode;
-        this.userData = userData;
     }
 
     public boolean isSuccess() {
@@ -47,13 +45,5 @@ public class ServiceResponse {
 
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
-    }
-
-    public LoginRequest getUserData() {
-        return userData;
-    }
-
-    public void setUserData(LoginRequest userData) {
-        this.userData = userData;
     }
 }
