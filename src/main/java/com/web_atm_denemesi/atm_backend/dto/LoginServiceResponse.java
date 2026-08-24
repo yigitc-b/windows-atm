@@ -2,17 +2,19 @@ package com.web_atm_denemesi.atm_backend.dto;
 
 import java.time.LocalDateTime;
 
-public class ServiceResponse {
+public class LoginServiceResponse {
     private boolean success;
     private String message;
     private LocalDateTime timestamp;
     private String statusCode;
+    private String token;
 
-    public ServiceResponse(boolean success, String message, LocalDateTime timestamp, String statusCode) {
+    public LoginServiceResponse(boolean success, String message, LocalDateTime timestamp, String statusCode, String token) {
         this.success = success;
         this.message = message;
         this.timestamp = timestamp;
         this.statusCode = statusCode;
+        this.token = token;
     }
 
     public boolean isSuccess() {
@@ -45,5 +47,13 @@ public class ServiceResponse {
 
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
