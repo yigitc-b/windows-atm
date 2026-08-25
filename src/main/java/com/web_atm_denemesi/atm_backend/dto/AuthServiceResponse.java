@@ -2,14 +2,14 @@ package com.web_atm_denemesi.atm_backend.dto;
 
 import java.time.LocalDateTime;
 
-public class LoginServiceResponse {
+public class AuthServiceResponse {
     private boolean success;
     private String message;
     private LocalDateTime timestamp;
     private String statusCode;
     private String token;
 
-    public LoginServiceResponse(boolean success, String message, LocalDateTime timestamp, String statusCode, String token) {
+    public AuthServiceResponse(boolean success, String message, LocalDateTime timestamp, String statusCode, String token) {
         this.success = success;
         this.message = message;
         this.timestamp = timestamp;
