@@ -6,12 +6,12 @@ import com.web_atm_denemesi.atm_backend.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
-@Controller
+@RestController
+@RequestMapping("/api")
 public class WebController {
 
     private final AuthService authService;
@@ -24,29 +24,14 @@ public class WebController {
         this.authService = authService;
     }
 
-    @GetMapping("/login")
-    public String getLoginPage() {
-        return "login.html";
-    }
-
-    @GetMapping("/about")
-    public String getAboutPage() {
-        return "about.html";
-    }
-
-    @GetMapping("/dashboard")
-    public String getDashboardPage() {
-        return "dashboard.html";
-    }
-
-    @GetMapping("/api/version")
+    @GetMapping("/version")
     @ResponseBody
     public String getVersion() {
         return "Application Version: " + version;
     }
     
 
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<AuthServiceResponse> handleLogin(@RequestBody LoginRequest loginRequest) {
         

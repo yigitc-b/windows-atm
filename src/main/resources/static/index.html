@@ -2,122 +2,91 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATM Web - Ana Sayfa</title>
+    <title>ATM Uygulaması - SPA</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background-color: #1e293b;
-            border-bottom: 1px solid #334155;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #38bdf8;
-            text-decoration: none;
-        }
-
-        .nav-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: #f8fafc;
-        }
-
-        .btn-login {
-            background-color: #0284c7;
-            color: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-
-        .btn-login:hover {
-            background-color: #0369a1;
-        }
-
-        main {
-            flex: 1;
-            padding: 3rem 2rem;
-            max-width: 900px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .card {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 2rem;
-        }
-
-        .card h1 {
-            color: #38bdf8;
-            margin-bottom: 1rem;
-        }
-
-        .card p {
-            color: #94a3b8;
-            line-height: 1.6;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #eef2f7; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 350px; text-align: center; }
+        .page { display: none; }
+        .active { display: block; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; }
+        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button:hover { background: #0056b3; }
+        .balance { font-size: 24px; color: #28a745; font-weight: bold; margin: 20px 0; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="nav-left">
-            <a href="/" class="logo">ATM Bank</a>
-            <nav class="nav-links">
-                <a href="/about">Hakkımızda</a>
-            </nav>
+    <div class="card">
+        <h2>ATM Paneli</h2>
+        <hr style="border:0; border-top:1px solid #eee; margin-bottom:20px;">
+
+        <!-- 1. GİRİŞ SAYFASI -->
+        <div id="login-page" class="page active">
+            <h3>Giriş Yap</h3>
+            <form onsubmit="login(event)">
+                <input type="text" id="username" placeholder="Kullanıcı Adı (admin)" required>
+                <input type="password" id="password" placeholder="Şifre (123)" required>
+                <button type="submit">Giriş Yap</button>
+            </form>
         </div>
 
-        <div class="nav-right">
-            <a href="/login" class="btn-login">Giriş Yap</a>
+        <!-- 2. DASHBOARD / ATM İŞLEMLERİ SAYFASI -->
+        <div id="dashboard-page" class="page">
+            <h3>Hoş Geldiniz, <span id="lbl-user"></span></h3>
+            <p>Hesap Bakiyeniz:</p>
+            <div class="balance" id="lbl-balance">Yükleniyor...</div>
+            <button onclick="fetchBalance()" style="background: #17a2b8;">Bakiyeyi Yenile</button>
+            <button onclick="logout()" style="background: #dc3545;">Çıkış Yap</button>
         </div>
-    </header>
+    </div>
 
-    <main>
-        <section class="card">
-            <h1>Hoş Geldiniz</h1>
-            <p>
-                ATM Bankacılık Sistemine hoş geldiniz. Lütfen işlemlerinize devam etmek için sağ üstteki 
-                <strong>Giriş Yap</strong> butonunu kullanın veya sistem hakkında bilgi almak için 
-                <strong>Hakkımızda</strong> sayfasına göz atın.
-            </p>
-        </section>
-    </main>
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
 
+        async function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (res.ok) {
+                    document.getElementById('lbl-user').innerText = username;
+                    showPage('dashboard-page');
+                    fetchBalance(); // Giriş yapınca bakiyeyi de çek
+                } else {
+                    alert('Giriş başarısız! Bilgileri kontrol edin.');
+                }
+            } catch (err) {
+                alert('Sunucuya bağlanılamadı!');
+            }
+        }
+
+        async function fetchBalance() {
+            try {
+                const res = await fetch('/api/atm/balance');
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('lbl-balance').innerText = data.balance + " TL";
+                }
+            } catch (err) {
+                console.error("Bakiye alınamadı", err);
+            }
+        }
+
+        function logout() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            showPage('login-page');
+        }
+    </script>
 </body>
 </html>
