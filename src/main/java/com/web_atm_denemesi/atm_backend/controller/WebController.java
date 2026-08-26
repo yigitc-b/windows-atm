@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/noauth")
 public class WebController {
 
     private final AuthService authService;

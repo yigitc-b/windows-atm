@@ -2,17 +2,17 @@ package com.web_atm_denemesi.atm_backend.dto;
 
 import java.math.BigDecimal;
 
-public class User {
-    private String userName;
+public class UserDetailsForServer {
+    private String username;
     private String password;
     private Long userId;
     private BigDecimal balance;
     
     public String getUserName() {
-        return userName;
+        return username;
     }
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        this.username = username;
     }
     public String getPassword() {
         return password;
@@ -32,8 +32,8 @@ public class User {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
-    public User(String userName, String password, Long userId, BigDecimal balance) {
-        this.userName = userName;
+    public UserDetailsForServer(String username, String password, Long userId, BigDecimal balance) {
+        this.username = username;
         this.password = password;
         this.userId = userId;
         this.balance = balance;

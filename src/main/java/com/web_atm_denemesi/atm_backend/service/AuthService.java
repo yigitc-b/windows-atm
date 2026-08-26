@@ -2,7 +2,7 @@ package com.web_atm_denemesi.atm_backend.service;
 
 import com.web_atm_denemesi.atm_backend.dto.LoginRequest;
 import com.web_atm_denemesi.atm_backend.dto.AuthServiceResponse;
-import com.web_atm_denemesi.atm_backend.dto.User;
+import com.web_atm_denemesi.atm_backend.dto.UserDetailsForServer;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +11,7 @@ public class AuthService {
 
         JWTService jwtService=new JWTService();
         DatabaseService databaseService=new DatabaseService();
-        User user=databaseService.getUser(loginRequest.getUsername());
+        UserDetailsForServer user= databaseService.getUserDetailsForServer(loginRequest.getUsername());
 
         if(user.getUserName().equals(loginRequest.getUsername()) && user.getPassword().equals(loginRequest.getPassword())){
             return new AuthServiceResponse(

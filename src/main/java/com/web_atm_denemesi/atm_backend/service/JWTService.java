@@ -59,4 +59,8 @@ public class JWTService {
     public String getSecretKey(){
         return secretKey;
     }
+
+    public String extractUsername(String token) {
+        return "";
+    }
 }

@@ -1,7 +1,7 @@
 package com.web_atm_denemesi.atm_backend.controller;
 
 import com.web_atm_denemesi.atm_backend.dto.LoginRequest;
-import com.web_atm_denemesi.atm_backend.dto.User;
+import com.web_atm_denemesi.atm_backend.dto.UserDetailsForClient;
 import com.web_atm_denemesi.atm_backend.dto.AuthServiceResponse;
 import com.web_atm_denemesi.atm_backend.service.AuthService;
 import com.web_atm_denemesi.atm_backend.service.DatabaseService;
@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-public class UserController{
+public class AuthanticatedController{
 
     private final DatabaseService databaseService;
 
     @Autowired
-    public UserController(DatabaseService databaseService) {
+    public AuthanticatedController(DatabaseService databaseService) {
         this.databaseService=databaseService;
     }
 
     @GetMapping("/user-details")
-    public ResponseEntity<User> getUserDetails (){
+    public ResponseEntity<UserDetailsForClient> getUserDetails (){
 
-        return ResponseEntity.ok(databaseService.getUser("yigit"));
+        return ResponseEntity.ok(databaseService.getUserDetailsForClient("yigit"));
     }
 }
