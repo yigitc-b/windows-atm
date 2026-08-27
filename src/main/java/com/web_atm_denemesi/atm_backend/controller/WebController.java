@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
-@RequestMapping("/api/noauth")
+@RequestMapping("/api/no-auth")
 public class WebController {
 
     private final AuthService authService;
@@ -40,7 +40,7 @@ public class WebController {
 
         // Eğer giriş başarısızsa HTTP 401 (Unauthorized), başarılıysa HTTP 200 (OK) dönüyoruz
         if (!response.isSuccess()) {
-            return ResponseEntity.status(401).body(response);
+            return ResponseEntity.status(response.getStatusCode()).body(response);
         }
 
         return ResponseEntity.ok(response);

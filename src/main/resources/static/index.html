@@ -2,91 +2,258 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>ATM Uygulaması - SPA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web ATM - Hesap Paneli</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #eef2f7; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 350px; text-align: center; }
-        .page { display: none; }
-        .active { display: block; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; }
-        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        button:hover { background: #0056b3; }
-        .balance { font-size: 24px; color: #28a745; font-weight: bold; margin: 20px 0; }
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --border-color: #334155;
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid var(--border-color);
+            box-sizing: border-box;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-color);
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* ATM Hesap Bilgi Paneli */
+        .dashboard {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+            text-align: center;
+        }
+
+        .balance-card {
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .balance-title {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .balance-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .error-box {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            border-radius: 6px;
+            color: var(--error);
+            font-size: 0.875rem;
+            text-align: center;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h2>ATM Paneli</h2>
-        <hr style="border:0; border-top:1px solid #eee; margin-bottom:20px;">
+    <div class="container">
+        <!-- GİRİŞ FORMU -->
+        <div id="loginSection">
+            <h2>Web ATM Giriş</h2>
+            
+            <div class="form-group">
+                <label for="username">Kullanıcı Adı</label>
+                <input type="text" id="username" placeholder="Kullanıcı adınızı girin">
+            </div>
 
-        <!-- 1. GİRİŞ SAYFASI -->
-        <div id="login-page" class="page active">
-            <h3>Giriş Yap</h3>
-            <form onsubmit="login(event)">
-                <input type="text" id="username" placeholder="Kullanıcı Adı (admin)" required>
-                <input type="password" id="password" placeholder="Şifre (123)" required>
-                <button type="submit">Giriş Yap</button>
-            </form>
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+
+            <button id="loginBtn">Giriş Yap</button>
+            <div id="errorBox" class="error-box"></div>
         </div>
 
-        <!-- 2. DASHBOARD / ATM İŞLEMLERİ SAYFASI -->
-        <div id="dashboard-page" class="page">
-            <h3>Hoş Geldiniz, <span id="lbl-user"></span></h3>
-            <p>Hesap Bakiyeniz:</p>
-            <div class="balance" id="lbl-balance">Yükleniyor...</div>
-            <button onclick="fetchBalance()" style="background: #17a2b8;">Bakiyeyi Yenile</button>
-            <button onclick="logout()" style="background: #dc3545;">Çıkış Yap</button>
+        <!-- BAŞARILI GİRİŞ SONRASI GÖRÜNECEK PANEL -->
+        <div id="dashboardSection" class="dashboard">
+            <h2>Hesap Özeti</h2>
+            <div class="welcome-text">Hoş geldin, <span id="userDisplayName" style="font-weight: bold; color: var(--primary);"></span></div>
+            
+            <div class="balance-card">
+                <div class="balance-title">Güncel Bakiye</div>
+                <div class="balance-amount" id="balanceAmount">0.00 TL</div>
+            </div>
+
+            <button id="logoutBtn" style="background-color: #64748b;">Çıkış Yap</button>
         </div>
     </div>
 
     <script>
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-        }
+        document.getElementById('loginBtn').addEventListener('click', async () => {
+            const usernameInput = document.getElementById('username').value.trim();
+            const passwordInput = document.getElementById('password').value.trim();
+            const errorBox = document.getElementById('errorBox');
 
-        async function login(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            errorBox.style.display = 'none';
+            
+            if (!usernameInput || !passwordInput) {
+                errorBox.textContent = "Kullanıcı adı ve şifre boş bırakılamaz!";
+                errorBox.style.display = 'block';
+                return;
+            }
 
             try {
-                const res = await fetch('/api/login', {
+                // 1. ADIM: Login Endpoint'ine istek atıp Token'ı almak
+                const loginResponse = await fetch('http://localhost:8080/api/no-auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
+                    body: JSON.stringify({ username: usernameInput, password: passwordInput })
                 });
 
-                if (res.ok) {
-                    document.getElementById('lbl-user').innerText = username;
-                    showPage('dashboard-page');
-                    fetchBalance(); // Giriş yapınca bakiyeyi de çek
-                } else {
-                    alert('Giriş başarısız! Bilgileri kontrol edin.');
+                if (!loginResponse.ok) {
+                    throw new Error(`Giriş başarısız! (HTTP Kod: ${loginResponse.status})`);
                 }
-            } catch (err) {
-                alert('Sunucuya bağlanılamadı!');
-            }
-        }
 
-        async function fetchBalance() {
-            try {
-                const res = await fetch('/api/atm/balance');
-                if (res.ok) {
-                    const data = await res.json();
-                    document.getElementById('lbl-balance').innerText = data.balance + " TL";
+                const loginData = await loginResponse.json();
+                const token = loginData.token || loginData; 
+
+                if (!token) {
+                    throw new Error("Sunucudan geçerli bir token alınamadı!");
                 }
-            } catch (err) {
-                console.error("Bakiye alınamadı", err);
-            }
-        }
 
-        function logout() {
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            showPage('login-page');
-        }
+                // 2. ADIM: Token'ı Header'a ekleyip korumalı endpoint'e (bakiye sorgulama) istek atmak
+                const protectedResponse = await fetch('http://localhost:8080/api/auth/user-details', {
+                    method: 'GET', // Backend'ine göre POST ise değiştirebilirsin
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                if (!protectedResponse.ok) {
+                    throw new Error("Kullanıcı bilgileri alınamadı! Yetkilendirme hatası.");
+                }
+
+                const accountData = await protectedResponse.json();
+
+                // 3. ADIM: Dönen yanıttaki username ve balance değerlerini arayüze adamakıllı işlemek
+                // (Backend'deki değişken isimlerine göre burası accountData.balance veya accountData.amount olabilir)
+                const fetchedUsername = accountData.username || usernameInput;
+                const fetchedBalance = accountData.balance !== undefined ? accountData.balance : (accountData.amount || 0);
+
+                // Paneller arası geçiş yap
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+
+                // Verileri ekrana yazdır
+                document.getElementById('userDisplayName').textContent = fetchedUsername;
+                document.getElementById('balanceAmount').textContent = Number(fetchedBalance).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + " TL";
+
+            } catch (error) {
+                errorBox.textContent = error.message;
+                errorBox.style.display = 'block';
+            }
+        });
+
+        // Çıkış yap butonu işlevi (Sayfayı yeniler)
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            location.reload();
+        });
     </script>
+
 </body>
 </html>

@@ -2,7 +2,6 @@ package com.web_atm_denemesi.atm_backend.service;
 
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.security.KeyStore.SecretKeyEntry;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,14 +9,12 @@ import java.util.Map;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.management.RuntimeErrorException;
 
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import tools.jackson.core.ObjectReadContext.Base;
 
 @Service
 public class JWTService {

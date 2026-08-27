@@ -6,10 +6,10 @@ public class AuthServiceResponse {
     private boolean success;
     private String message;
     private LocalDateTime timestamp;
-    private String statusCode;
+    private int statusCode;
     private String token;
 
-    public AuthServiceResponse(boolean success, String message, LocalDateTime timestamp, String statusCode, String token) {
+    public AuthServiceResponse(boolean success, String message, LocalDateTime timestamp, int statusCode, String token) {
         this.success = success;
         this.message = message;
         this.timestamp = timestamp;
@@ -41,11 +41,11 @@ public class AuthServiceResponse {
         this.timestamp = timestamp;
     }
 
-    public String getStatusCode() {
+    public int getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(String statusCode) {
+    public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
     }
 

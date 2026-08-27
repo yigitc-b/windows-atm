@@ -3,14 +3,14 @@ package com.web_atm_denemesi.atm_backend.dto;
 import java.math.BigDecimal;
 
 public class UserDetailsForClient {
-    private String userName;
+    private String username;
     private BigDecimal balance;
     
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
     public BigDecimal getBalance() {
         return balance;
@@ -19,7 +19,7 @@ public class UserDetailsForClient {
         this.balance = balance;
     }
     public UserDetailsForClient(String username, BigDecimal balance) {
-        this.userName = username;
+        this.username = username;
         this.balance = balance;
     }
 }
