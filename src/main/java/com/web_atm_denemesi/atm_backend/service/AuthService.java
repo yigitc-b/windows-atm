@@ -4,7 +4,6 @@ import com.web_atm_denemesi.atm_backend.dto.LoginRequest;
 import com.web_atm_denemesi.atm_backend.dto.AuthServiceResponse;
 import com.web_atm_denemesi.atm_backend.dto.DatabaseServiceResponse;
 import com.web_atm_denemesi.atm_backend.dto.UserDetailsForServer;
-import com.web_atm_denemesi.atm_backend.enums.ServiceResponseStatus;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class AuthService {
                         );
                     }
                     else{
-                        logger.info("Wrong Password. Username = "+user.getUsername()+" Password = "+user.getPassword());
+                        logger.info("Wrong Password. Username = "+user.getUsername()+" Password = "+loginRequest.getPassword());
                         return new AuthServiceResponse(
                             false, 
                             "Invalid username or password", 

@@ -33,7 +33,7 @@ public class WebController {
 
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<AuthServiceResponse> handleLogin(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<AuthServiceResponse> getJwtToken(@RequestBody LoginRequest loginRequest) {
         
         // İş mantığını Service katmanına devrediyoruz
         AuthServiceResponse response = authService.authenticateUser(loginRequest);
