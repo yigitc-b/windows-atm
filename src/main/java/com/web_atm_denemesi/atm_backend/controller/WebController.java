@@ -3,7 +3,6 @@ package com.web_atm_denemesi.atm_backend.controller;
 import com.web_atm_denemesi.atm_backend.dto.LoginRequest;
 import com.web_atm_denemesi.atm_backend.dto.AuthServiceResponse;
 import com.web_atm_denemesi.atm_backend.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +17,6 @@ public class WebController {
     @Value("${info.app.version}")
     private String version;
 
-    // Dependency Injection (Spring'in AuthService'i otomatik bağlaması)
-    @Autowired
     public WebController(AuthService authService) {
         this.authService = authService;
     }
