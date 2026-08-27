@@ -2,6 +2,7 @@ package com.web_atm_denemesi.atm_backend.filter;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtFilter extends OncePerRequestFilter{
 
+    @Autowired
     private JWTService jwtService;
 
     @Override

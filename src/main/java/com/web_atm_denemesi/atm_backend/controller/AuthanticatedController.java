@@ -2,6 +2,8 @@ package com.web_atm_denemesi.atm_backend.controller;
 
 import com.web_atm_denemesi.atm_backend.dto.UserDetailsForClient;
 import com.web_atm_denemesi.atm_backend.service.DatabaseService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthanticatedController{
 
+    @Autowired
     private final DatabaseService databaseService;
 
     public AuthanticatedController(DatabaseService databaseService) {

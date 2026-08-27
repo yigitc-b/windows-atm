@@ -3,6 +3,8 @@ package com.web_atm_denemesi.atm_backend.controller;
 import com.web_atm_denemesi.atm_backend.dto.LoginRequest;
 import com.web_atm_denemesi.atm_backend.dto.AuthServiceResponse;
 import com.web_atm_denemesi.atm_backend.service.AuthService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/api/no-auth")
 public class WebController {
 
+    @Autowired
     private final AuthService authService;
     @Value("${info.app.version}")
     private String version;

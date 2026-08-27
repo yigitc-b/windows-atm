@@ -1,5 +1,6 @@
 package com.web_atm_denemesi.atm_backend.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,7 @@ import com.web_atm_denemesi.atm_backend.filter.JwtFilter;
 @EnableWebSecurity
 public class SecurityConfig {
     
+    @Autowired
     private JwtFilter jwtFilter;
 
     @Bean
