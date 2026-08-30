@@ -29,12 +29,14 @@ public class SecurityConfig {
 
         http
             .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth 
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/","/index.html").permitAll()
+
                 .requestMatchers("/api/no-auth/**").permitAll()
 
                 .requestMatchers("/api/auth/**").authenticated()
 
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

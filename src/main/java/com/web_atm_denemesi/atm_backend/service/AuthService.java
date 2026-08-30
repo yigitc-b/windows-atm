@@ -17,7 +17,7 @@ public class AuthService {
     //LOGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGING
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
     //LOGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGING
-    
+
     private final JWTService jwtService;
     private final DatabaseService databaseService;
     private final BCryptPasswordEncoder passwordEncoder;

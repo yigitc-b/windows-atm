@@ -5,6 +5,7 @@ import com.web_atm_denemesi.atm_backend.service.DatabaseService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,9 +21,9 @@ public class AuthanticatedController{
     }
 
     @GetMapping("/user-details")
-    public ResponseEntity<UserDetailsForClient> getUserDetails (){
+    public ResponseEntity<UserDetailsForClient> getUserDetails (Authentication authentication){
 
-        UserDetailsForClient response = databaseService.getUserDetailsForClient("yigit").getUser();
+        UserDetailsForClient response = databaseService.getUserDetailsForClient(authentication.getName()).getUser();
         return ResponseEntity.ok(response);
     }
 }
