@@ -1,7 +1,9 @@
 package com.web_atm_denemesi.atm_backend.controller;
 
-import com.web_atm_denemesi.atm_backend.dto.UserDetailsForClient;
+import com.web_atm_denemesi.atm_backend.dto.ApiResponse;
 import com.web_atm_denemesi.atm_backend.service.DatabaseService;
+
+import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +22,8 @@ public class AuthanticatedController{
         this.databaseService=databaseService;
     }
 
-    @GetMapping("/user-details")
-    public ResponseEntity<UserDetailsForClient> getUserDetails (Authentication authentication){
-
-        UserDetailsForClient response = databaseService.getUserDetailsForClient(authentication.getName()).getUser();
-        return ResponseEntity.ok(response);
+    @GetMapping("/account/balance")
+    public ResponseEntity<ApiResponse<BigDecimal>> getBalance (Authentication authentication){
+        return ResponseEntity.ok(ApiResponse.success(databaseService.getUserDetailsForServer(authentication.getName()).getBalance(), "Balance başarı ile getirildi"));
     }
 }

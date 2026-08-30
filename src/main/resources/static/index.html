@@ -3,257 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web ATM - Hesap Paneli</title>
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-color: #f8fafc;
-            --primary: #3b82f6;
-            --primary-hover: #2563eb;
-            --border-color: #334155;
-            --success: #22c55e;
-            --error: #ef4444;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            background-color: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 420px;
-            border: 1px solid var(--border-color);
-            box-sizing: border-box;
-        }
-
-        h2 {
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            font-size: 1.5rem;
-            letter-spacing: 0.5px;
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-            color: #94a3b8;
-        }
-
-        input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background-color: #0f172a;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: var(--text-color);
-            font-size: 1rem;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        input:focus {
-            border-color: var(--primary);
-        }
-
-        button {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin-top: 0.5rem;
-        }
-
-        button:hover {
-            background-color: var(--primary-hover);
-        }
-
-        /* ATM Hesap Bilgi Paneli */
-        .dashboard {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        .welcome-text {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            color: #cbd5e1;
-            text-align: center;
-        }
-
-        .balance-card {
-            background-color: #0f172a;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .balance-title {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
-        }
-
-        .balance-amount {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--success);
-        }
-
-        .error-box {
-            margin-top: 1rem;
-            padding: 0.75rem;
-            background-color: rgba(239, 68, 68, 0.1);
-            border: 1px solid var(--error);
-            border-radius: 6px;
-            color: var(--error);
-            font-size: 0.875rem;
-            text-align: center;
-            display: none;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    <title>Web ATM - Bankacılık İşlemleri</title>
+    <!-- Google Fonts & FontAwesome İkonları -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <!-- GİRİŞ FORMU -->
-        <div id="loginSection">
-            <h2>Web ATM Giriş</h2>
-            
-            <div class="form-group">
-                <label for="username">Kullanıcı Adı</label>
-                <input type="text" id="username" placeholder="Kullanıcı adınızı girin">
+    <div class="atm-container">
+        <!-- ATM Header -->
+        <header class="atm-header">
+            <div class="brand">
+                <i class="fa-solid fa-building-columns"></i>
+                <span>WEB BANK</span>
             </div>
-
-            <div class="form-group">
-                <label for="password">Şifre</label>
-                <input type="password" id="password" placeholder="••••••••">
+            <div id="user-info" class="user-info hidden">
+                <span id="user-name-display">Hoş geldiniz</span>
+                <button id="logout-btn" class="btn-logout" title="Çıkış Yap">
+                    <i class="fa-solid fa-power-off"></i>
+                </button>
             </div>
+        </header>
 
-            <button id="loginBtn">Giriş Yap</button>
-            <div id="errorBox" class="error-box"></div>
-        </div>
+        <!-- Dynamic Content Area (SPA Screens) -->
+        <main class="atm-body">
 
-        <!-- BAŞARILI GİRİŞ SONRASI GÖRÜNECEK PANEL -->
-        <div id="dashboardSection" class="dashboard">
-            <h2>Hesap Özeti</h2>
-            <div class="welcome-text">Hoş geldin, <span id="userDisplayName" style="font-weight: bold; color: var(--primary);"></span></div>
-            
-            <div class="balance-card">
-                <div class="balance-title">Güncel Bakiye</div>
-                <div class="balance-amount" id="balanceAmount">0.00 TL</div>
-            </div>
+            <!-- 1. VIEW: LOGIN PAGE -->
+            <section id="view-login" class="view">
+                <h2>Oturum Açın</h2>
+                <p class="subtitle">ATM işlemlerine devam etmek için giriş yapın</p>
+                
+                <form id="login-form">
+                    <div class="input-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="username" placeholder="Kullanıcı Adı" required autocomplete="off">
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" placeholder="Şifre" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+                </form>
+            </section>
 
-            <button id="logoutBtn" style="background-color: #64748b;">Çıkış Yap</button>
-        </div>
+            <!-- 2. VIEW: DASHBOARD (ANA MENÜ) -->
+            <section id="view-dashboard" class="view hidden">
+                <div class="balance-card">
+                    <span class="label">Mevcut Bakiye</span>
+                    <div class="amount" id="account-balance">₺0.00</div>
+                </div>
+
+                <div class="action-grid">
+                    <button class="action-card" onclick="app.navigateTo('view-deposit')">
+                        <i class="fa-solid fa-circle-arrow-down"></i>
+                        <span>Para Yatır</span>
+                    </button>
+                    <button class="action-card" onclick="app.navigateTo('view-withdraw')">
+                        <i class="fa-solid fa-circle-arrow-up"></i>
+                        <span>Para Çek</span>
+                    </button>
+                    <button class="action-card" onclick="app.navigateTo('view-transfer')">
+                        <i class="fa-solid fa-money-bill-transfer"></i>
+                        <span>Havale / EFT</span>
+                    </button>
+                    <button class="action-card" onclick="app.navigateTo('view-transactions')">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Son İşlemler</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 3. VIEW: PARA ÇEKME -->
+            <section id="view-withdraw" class="view hidden">
+                <button class="btn-back" onclick="app.navigateTo('view-dashboard')">
+                    <i class="fa-solid fa-arrow-left"></i> Geri
+                </button>
+                <h2>Para Çekme</h2>
+                <form id="withdraw-form">
+                    <div class="input-group">
+                        <i class="fa-solid fa-turkish-lira-sign"></i>
+                        <input type="number" id="withdraw-amount" min="10" step="10" placeholder="Çekilecek Tutar" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Onayla ve Çek</button>
+                </form>
+            </section>
+
+            <!-- 4. VIEW: PARA YATIRMA -->
+            <section id="view-deposit" class="view hidden">
+                <button class="btn-back" onclick="app.navigateTo('view-dashboard')">
+                    <i class="fa-solid fa-arrow-left"></i> Geri
+                </button>
+                <h2>Para Yatırma</h2>
+                <form id="deposit-form">
+                    <div class="input-group">
+                        <i class="fa-solid fa-turkish-lira-sign"></i>
+                        <input type="number" id="deposit-amount" min="10" step="10" placeholder="Yatırılacak Tutar" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Onayla ve Yatır</button>
+                </form>
+            </section>
+
+        </main>
+
+        <!-- Message/Notification Toast -->
+        <div id="toast-message" class="toast hidden"></div>
     </div>
 
-    <script>
-        document.getElementById('loginBtn').addEventListener('click', async () => {
-            const usernameInput = document.getElementById('username').value.trim();
-            const passwordInput = document.getElementById('password').value.trim();
-            const errorBox = document.getElementById('errorBox');
-
-            errorBox.style.display = 'none';
-            
-            if (!usernameInput || !passwordInput) {
-                errorBox.textContent = "Kullanıcı adı ve şifre boş bırakılamaz!";
-                errorBox.style.display = 'block';
-                return;
-            }
-
-            try {
-                // 1. ADIM: Login Endpoint'ine istek atıp Token'ı almak
-                const loginResponse = await fetch('http://localhost:8080/api/no-auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: usernameInput, password: passwordInput })
-                });
-
-                if (!loginResponse.ok) {
-                    throw new Error(`Giriş başarısız! (HTTP Kod: ${loginResponse.status})`);
-                }
-
-                const loginData = await loginResponse.json();
-                const token = loginData.token || loginData; 
-
-                if (!token) {
-                    throw new Error("Sunucudan geçerli bir token alınamadı!");
-                }
-
-                // 2. ADIM: Token'ı Header'a ekleyip korumalı endpoint'e (bakiye sorgulama) istek atmak
-                const protectedResponse = await fetch('http://localhost:8080/api/auth/user-details', {
-                    method: 'GET', // Backend'ine göre POST ise değiştirebilirsin
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    }
-                });
-
-                if (!protectedResponse.ok) {
-                    throw new Error("Kullanıcı bilgileri alınamadı! Yetkilendirme hatası.");
-                }
-
-                const accountData = await protectedResponse.json();
-
-                // 3. ADIM: Dönen yanıttaki username ve balance değerlerini arayüze adamakıllı işlemek
-                // (Backend'deki değişken isimlerine göre burası accountData.balance veya accountData.amount olabilir)
-                const fetchedUsername = accountData.username || usernameInput;
-                const fetchedBalance = accountData.balance !== undefined ? accountData.balance : (accountData.amount || 0);
-
-                // Paneller arası geçiş yap
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('dashboardSection').style.display = 'block';
-
-                // Verileri ekrana yazdır
-                document.getElementById('userDisplayName').textContent = fetchedUsername;
-                document.getElementById('balanceAmount').textContent = Number(fetchedBalance).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + " TL";
-
-            } catch (error) {
-                errorBox.textContent = error.message;
-                errorBox.style.display = 'block';
-            }
-        });
-
-        // Çıkış yap butonu işlevi (Sayfayı yeniler)
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            location.reload();
-        });
-    </script>
-
+    <script src="app.js"></script>
 </body>
 </html>
