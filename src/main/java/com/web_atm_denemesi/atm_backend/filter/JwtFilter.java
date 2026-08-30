@@ -11,7 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.web_atm_denemesi.atm_backend.dto.JwtValidationResult;
 import com.web_atm_denemesi.atm_backend.service.AuthService;
-import com.web_atm_denemesi.atm_backend.service.JWTService;
+import com.web_atm_denemesi.atm_backend.service.JwtService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,7 +29,7 @@ public class JwtFilter extends OncePerRequestFilter{
     //LOGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGING
 
     @Autowired
-    private JWTService jwtService;
+    private JwtService jwtService;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {

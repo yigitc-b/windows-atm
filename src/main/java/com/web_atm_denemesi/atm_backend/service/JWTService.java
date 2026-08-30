@@ -29,10 +29,10 @@ import org.slf4j.LoggerFactory;
 //LOGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGING
 
 @Service
-public class JWTService {
+public class JwtService {
 
     //LOGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGING
-    private static final Logger logger = LoggerFactory.getLogger(JWTService.class);
+    private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
     //LOGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGING
 
     @Value("${jwt.secret-key}")
@@ -49,7 +49,7 @@ public class JWTService {
             .add(claims)
             .subject(userName)
             .issuedAt(new Date(System.currentTimeMillis()))
-            .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
+            .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 1))
             .and()
             .signWith(getKey())
             .compact();
@@ -101,6 +101,7 @@ public class JWTService {
                 case UnsupportedJwtException ex -> ServiceResponseStatus.UNSUPPORTED;
                 default -> ServiceResponseStatus.MALFORMED;
             };
+            logger.error("An error "+status);
             return new JwtValidationResult(false, status, null);
         }
     }

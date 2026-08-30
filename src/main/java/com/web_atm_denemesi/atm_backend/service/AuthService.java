@@ -18,11 +18,11 @@ public class AuthService {
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
     //LOGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGING
 
-    private final JWTService jwtService;
+    private final JwtService jwtService;
     private final DatabaseService databaseService;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public AuthService(JWTService jwtService, DatabaseService databaseService ,BCryptPasswordEncoder passwordEncoder){
+    public AuthService(JwtService jwtService, DatabaseService databaseService ,BCryptPasswordEncoder passwordEncoder){
         this.jwtService = jwtService;
         this.databaseService = databaseService;
         this.passwordEncoder = passwordEncoder;
